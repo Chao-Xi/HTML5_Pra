@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Html5_time_datalist_progress</title>
+<script type="text/javascript">
+    window.onload=function ()
+    {
+	  var oTime=document.getElementsByTagName("time")[0];
+	  var oText1=document.getElementsByTagName("input")[0];
+	  var oText2=document.getElementsByTagName("input")[1];
+	  var date=new Date();
+	  if(date.getFullYear()==oTime.innerHTML)
+	   {
+		oText1.value="Happy 2016 year";  
+	   }
+       
+	   var oPro=document.getElementsByTagName("progress")[0];
+	   var timer=setInterval(function (){
+		   if(oPro.value==10)
+	        {
+			  clearInterval(timer);
+			  document.body.removeChild(oPro);
+			  //remove oPro from body
+			  var span=document.createElement("span");
+			  //create new element
+			  span.innerHTML="loading complete";
+			  //give value to the element
+			  document.body.appendChild(span);	
+			  //append the element to the body
+			}else
+			{
+			oPro.value+=1;	
+			}
+		   },500); 	
+ 		
+	}
+</script>
+</head>
+<body>
+ This year is:<time>2016</time>
+ <input type="text" readonly="readonly"/>
+ <br/>
+ <progress min=0 max=10 value=0></progress>
+ <br/>
+ Favorite NY team:<input type="text" list="li" name="name" />
+ <datalist id="li">
+ <option>KNICKS</option>
+ <option>YANKEE</option>
+ <option>METS</option>
+ <option>JETS</option>
+ </datalist>
+ 
+ <div contenteditable="true">You can edit this content</div>
+</body>
+</html>
