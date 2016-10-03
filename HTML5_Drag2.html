@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Drag2</title>
+<style type="text/css">
+  #box1{
+	 width:400px; height:400px; border:1px solid red;
+	  }
+  #box2{
+	  width:400px; height:400px; border:1px solid #000; list-style:none; padding:0; margin:0;
+	  }
+	li{
+		width:150px; height:40px; margin:5px 0; background:#eee; line-height:30px; text-align:center;        list-style:none; border:1px solid #30C
+		}  
+</style>
+   
+   <script type="text/javascript">
+       window.onload=function ()
+	   {
+	       var box1=document.getElementById("box1");
+		   var box2=document.getElementById("box2");
+		   var lis=document.getElementsByTagName("li");	   
+	       for(var i=0; i<lis.length;i++)
+		   {
+			  lis[i].draggable=true;
+			  lis[i].flag=false;   
+			  lis[i].ondragstart=function ()
+			   {
+				this.flag=true;   
+			   } 
+			   
+			    lis[i].ondragend=function ()
+			   {
+				this.flag=true;   
+			   } 
+		   }
+		
+		box1.ondragenter=function (e)
+		{
+		  e.preventDefault();	
+		}
+	    
+		box1.ondragover=function (e)
+		{
+		  e.preventDefault();	
+		}
+		
+		box1.ondragleave=function (e)
+		{
+		  e.preventDefault();	
+		}
+		
+		box1.ondrop=function (e)
+		{
+		  e.preventDefault();
+		  for(var i=0; i<lis.length; i++)
+		  {
+			  if(lis[i].flag)
+			  {
+				box1.appendChild(lis[i]);  
+			  }
+          }	
+		}
+	   
+	   
+	   
+	   box2.ondragenter=function (e)
+		{
+		  e.preventDefault();	
+		}
+	    
+		box2.ondragover=function (e)
+		{
+		  e.preventDefault();	
+		}
+		
+		box2.ondragleave=function (e)
+		{
+		  e.preventDefault();	
+		}
+		
+		box2.ondrop=function (e)
+		{
+		  e.preventDefault();
+		  for(var i=0; i<lis.length; i++)
+		  {
+			  if(lis[i].flag)
+			  {
+				box2.appendChild(lis[i]);  
+			  }
+          }	
+		}
+	   }
+     </script>
+</head>
+
+<body>
+  <div id="box1">
+  </div>
+  
+  <div id="box2">
+
+      <li>Knicks</li>
+      <li>NETS</li>
+      <li>JETS</li>
+      <li>GIANT</li>
+      <li>Yankee</li>
+      <li>MET</li>
+
+  </div>
+</body>
+</html>
