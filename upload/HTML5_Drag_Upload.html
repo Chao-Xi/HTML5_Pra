@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Drag and Drop</title>
+<style type="text/css">
+  #box {
+	width:250px; height:250px; border:1px dashed red;
+  	font-size:13px; line-height:150px; text-align:center
+  }
+</style>
+  <script type="text/javascript">
+      window.onload=function ()
+      {
+          var box=document.getElementById('box'); 	  
+    	  box.ondragenter=function (e)
+    	  {
+    	  	e.preventDefault();
+    	  }
+    	  
+    	  box.ondragover=function (e)
+    	  {
+    	  	e.preventDefault();
+    	  	box.innerHTML="please realse your mouse";
+    	  }
+    	  
+    	  box.ondragleave=function (e)
+    	  {
+    	  	e.preventDefault();
+    	  	box.innerHTML="Drag and Drop to Upload the file";
+    	  }
+    	  
+    	  box.ondrop=function (e)
+    	  { 
+    		  //dataTransfer.files[0].name
+    		  //dataTransfer.files.length
+    		  //dataTransfer.files return length
+    		  //dataTransfer.files.type
+    		  //dataTransfer.files.size
+	
+    		var file=e.dataTransfer.files[0];
+    		//ajax
+    		var formdata=new FormData();
+    		formdata.append("file",file);
+    		var myXmlHttpRequest=new XMLHttpRequest();
+    		myXmlHttpRequest.open("post","upload.php",true);
+    		myXmlHttpRequest.send(formdata);
+    		
+    	  	e.preventDefault();
+    	  }
+      }
+  
+  </script>
+ 
+</head>
+<body>
+    <div id="box">Drag and Drop to Upload the file</div>  
+</body>
+</html>
