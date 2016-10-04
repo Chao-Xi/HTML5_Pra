@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Geolocation</title>
+</head>
+<body>
+   <script type="text/javascript">
+       function success(position)
+	   {
+		 console.log("latitude is "+position.coords.latitude);
+		 console.log("longitude is "+position.coords.longitude);
+	   }
+	   
+	   function error(errorCode)
+	   {
+		 alert(errorCode.code+"--"+errorCode.message);
+	   }
+	   
+	   var options={};
+       if(navigator.geolocation)
+	   {
+		   navigator.geolocation.getCurrentPosition(success,error,options); 
+	   }else
+	   {
+		  alert("This is function is not appropriate for you browser anymore");
+		   }
+   </script>
+</body>
+</html>
