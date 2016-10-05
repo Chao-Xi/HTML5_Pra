@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Local_Storage</title>
+<script type="text/javascript">
+    //document.cookie="name=var";
+	//localStorage.setItem("name","var");
+	//localStorage.getItem("name");
+	//sessionStorage.setItem("name","var");
+    //sessionStorage.getItem("name");
+	window.onload=function ()
+	{
+	     var names=document.getElementsByName("names")[0];
+		 var pass=document.getElementsByName("pass")[0];
+		 var save=document.getElementsByName("save")[0];
+	     if(localStorage.getItem("names") && localStorage.getItem("pass"))
+		 {
+		   names.value=localStorage.getItem("names");
+		   pass.value=localStorage.getItem("pass");
+		   save.checked=true;	 
+			 
+		 }
+		 
+		
+	     save.onclick=function()
+		 {
+		    if(save.checked){
+				localStorage.setItem("names",names.value);
+				localStorage.setItem("pass",pass.value);
+				}else
+				{
+				  localStorage.removeItem("names");
+				  localStorage.removeItem("pass");	
+				}	 
+			 
+			 
+	     }	  
+	}
+	
+
+	
+</script>
+</head>
+<body>
+   Username: <input type="text" name="names" /><br/>
+   Password: <input type="password" name="pass" /><br/>
+   Save info:<input type="checkbox" name="save" /><br/>
+</body>
+</html>
