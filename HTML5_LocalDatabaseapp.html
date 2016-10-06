@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>LocalDatabase Application</title>
+<script type="text/javascript">
+ window.onload=function(){
+  var table=document.getElementsByTagName("table")[0];
+  var tbody=table.getElementsByTagName("tbody")[0];
+  var add=document.getElementsByName("add")[0];
+  var del=document.getElementsByName("del")[0];
+  var save=document.getElementsByName("save")[0];
+  
+  if(window.openDatabase){
+	     var dataBase=openDatabase("EMPLOYEE","1.0","EMP",1024*1024,function(){});
+	     
+		 dataBase.transaction(function(fx){
+		 //create a table
+		 fx.executeSql(
+		    "create table if not exists EMP(name TEXT,age TEXT,gender TEXT,department TEXT)",
+			[],
+			function()
+			{
+			  console.log("create success");
+			},
+			function ()
+			{
+			  console.log("create fail");	
+			});
+		 })
+      
+	  
+    //add a row
+    add.onclick=function ()
+	{
+		var tr=document.createElement("tr");
+		var str="";
+		for(var i=0;i<4;i++)
+		{
+		 str+="<td>&nbsp;</td>";	
+		}
+		
+		tr.innerHTML=str;
+		tbody.appendChild(tr);
+		
+    }
+	
+
+	//delete this row
+	del.onclick=function ()
+	{ 
+	  var trs=tbody.getElementsByTagName("tr");
+	  tbody.removeChild(trs[trs.length-1]);
+	  var tdend1=trs[trs.length-1].getElementsByTagName("td")[0]; 
+	  
+		 dataBase.transaction(
+		 function (fx){
+		    fx.executeSql(
+		    "delete from EMP where name='?'",
+			[tdend1.innnerHTML],
+			function()
+			{
+			  console.log("Delete success");
+			},
+			function ()
+			{
+			  console.log("Delete fail");	
+			});
+		   })   	
+    }
+	
+	//edit table
+	table.ondblclick=function (e)
+	{
+	   var ev=e||window.event;
+	   var target=ev.target||ev.srcElement;
+	   if(target.nodeName="TD")
+	   {
+		var oldv=target.innerHTML;
+		target.innerHTML="";
+		var input=document.createElement("input");
+		input.type="text";
+		input.value=oldv;
+		input.size=12;
+		target.appendChild(input);  
+		input.onblur=function()
+		{
+		  var newv=input.value;
+		  target.removeChild(this);
+		  target.innerHTML=newv;	
+		} 
+	   }
+	 }
+ 
+ 
+    save.onclick=function ()
+    {
+	   for(var i=0; i<tbody.getElementsByTagName("tr").length;i++)
+	   {
+		 var tds=tbody.getElementsByTagName("tr")[i].getElementsByTagName("td");
+	
+		 dataBase.transaction(
+		 function (fx){
+		                    fx.executeSql(
+		                      "insert into EMP (name,age,gender,department) values (?,?,?,?)",
+			                  [tds[0].innerHTML,tds[1].innerHTML,tds[2].innerHTML,tds[3].innerHTML],
+			function()
+			{
+			  console.log("Insert success");
+			},
+			function ()
+			{
+			  console.log("Insert fail");	
+			});
+		   })  
+		}	
+	}
+    
+	
+	 dataBase.transaction(
+		 function (fx){  
+	        
+			fx.executeSql(
+		    "select * from EMP",
+			[],
+			function(fx,result)
+			{
+			 for(var i=0;i<result.rows.length;i++)
+			 {
+				var tr=document.createElement("tr");
+				var str="";
+				str+="<td>"+result.rows.item(i)["name"]+"</td>"+
+				     "<td>"+result.rows.item(i)["age"]+"</td>"+
+					 "<td>"+result.rows.item(i)["gender"]+"</td>"+
+					 "<td>"+result.rows.item(i)["department"]+"</td>" ;
+					 
+				tr.innerHTML=str;
+				tbody.appendChild(tr);	 
+			  }
+			  console.log("query success");
+			},
+			function ()
+			{
+			  console.log("query fail");	
+			});
+			
+		 })
+
+ }
+ }
+</script>
+</head>
+
+<body>
+<table width=500 border=1 cellspacing=1>
+  <caption>Employeer List</caption>
+  <thead>
+  <tr>
+  <th>Name</th><th>Age</th><th>Gender</th><th>Department</th>
+  </tr>
+  </thead> 
+  <tbody></tbody>
+</table>
+<input type="button"  value="add a row" name="add" />
+<input type="button"  value="delete a row" name="del" />
+<input type="button"  value="save a row" name="save" />
+</body>
+</html>
