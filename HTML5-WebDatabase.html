@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Web_Database</title>
+<script type="text/javascript">
+   window.onload=function ()
+   {
+	  var one=document.getElementById("one");
+	  if(window.openDatabase){
+	     var dataBase=openDatabase("NYTEAM","1.0","TEAMS",1024*1024,function(){});
+	     
+		 dataBase.transaction(function(fx){
+		 //create a table
+		 fx.executeSql(
+		    "create table if not exists team (id real unique, name text)",
+			[],
+			function()
+			{
+			  console.log("create success");
+			},
+			function ()
+			{
+			  console.log("create fail");	
+			});
+		   
+		   //insert data
+		    fx.executeSql(
+		    "insert into team (id,name) values (?,?)",
+			[1,"Yankee"],
+			function()
+			{
+			  console.log("Insert success");
+			},
+			function ()
+			{
+			  console.log("Insert fail");	
+			});
+		     
+			 //update data
+			 fx.executeSql(
+		    "update team set name=? where id=?",
+			["Knicks",1],
+			function()
+			{
+			  console.log("Insert success");
+			},
+			function ()
+			{
+			  console.log("Insert fail");	
+			});
+			
+			
+			//search data
+		    fx.executeSql(
+		    "select * from team",
+			[],
+			function(fx,result)
+			{
+			 for(var i=0;i<result.rows.length;i++)
+			 {
+				one.innerHTML+=result.rows.item(i)['name']; 
+			  }
+			  console.log("query success");
+			},
+			function ()
+			{
+			  console.log("query fail");	
+			});
+		     
+			 //delete data
+			 fx.executeSql(
+		    "delete from team where id=?",
+			[1],
+			function()
+			{
+			  console.log("Delete success");
+			},
+			function ()
+			{
+			  console.log("Delete fail");	
+			});
+		    
+			//drop table
+			fx.executeSql(
+		    "drop table team",
+			[],
+			function()
+			{
+			  console.log("Drop success");
+			},
+			function ()
+			{
+			  console.log("Drop fail");	
+			}); 
+		 })
+      }
+   }
+</script>
+</head>
+
+<body>
+<div id="one"></div>
+</body>
+</html>
