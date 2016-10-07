@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Clock</title>
+<style type="text/css">
+  #canvas{
+	  background:#eee;
+	  }
+</style>
+ <script type="text/javascript">
+    window.onload=function() {
+      var canvas=document.getElementById("canvas");
+	  var cobj=canvas.getContext("2d");
+	  var originx=200;
+	  var originy=200;
+      var radius=100;
+      
+	  setInterval(function()
+	  {
+		  //shadow
+		  cobj.shadowColor="#888";
+		  cobj.shadowOffsetX=2;
+		  cobj.shadowOffsetY=2;
+		  cobj.shadowBlur=3;
+		  
+		  //gradient color
+		  var colorObj=cobj.createRadialGradient(originx,originy,1,originx,originy,100);
+		  colorObj.addColorStop(0,"#efefef");
+		  colorObj.addColorStop(1,"#cecece");
+		  cobj.lineWidth=8;
+		  cobj.fillStyle=colorObj;
+		  cobj.beginPath();
+		  cobj.StrokeStyle=colorObj;
+		  cobj.arc(originx,originy,radius,0,2*Math.PI);
+		  cobj.stroke();
+		  cobj.fill();
+		  
+		  
+		  //get off shadow
+		  cobj.shadowColor="#888";
+		  cobj.shadowOffsetX=0;
+		  cobj.shadowOffsetY=0;
+		  cobj.shadowBlur=0
+		  
+		  drawMark();
+		  
+		  //draw poniters
+		  var date=new Date();
+		  var ha=date.getHours()*30+(date.getMinutes()*6/12)-90;
+		  var ma=date.getMinutes()*60-90;
+		  var sa=date.getSeconds()*6-90;		  
+		  
+		  
+		  drawPointer(55,ha,4,"#000");
+		  drawPointer(65,ma,3,"#888");
+		  drawPointer(75,sa,2,"#ff0000");
+		  
+		  //draw center point
+		  cobj.shadowColor="#888";
+		  cobj.shadowOffsetX=1;
+		  cobj.shadowOffsetY=1;
+		  cobj.shadowBlur=3;
+		  cobj.fillStyle="#777";
+		  cobj.beginPath();
+		  cobj.arc(originx,originy,4,0,2*Math.PI);
+		  cobj.fill();
+		  
+		  },1000);
+	  
+	   
+	   function drawMark()
+	   {
+		  for(var i=0;i<60;i++)
+		  {
+			var angle=i*6*Math.PI/180;
+			var radius1=radius-4;
+			var lw=2;
+			if(i%5==0)
+			{
+			  radius1=radius-8;
+			  lw=4;	
+            }  
+		    cobj.StrokeStyle="#888";
+			cobj.lineWidth=lw;
+			cobj.beginPath();
+			cobj.moveTo(originx+radius*Math.cos(angle),	originy+radius*Math.sin(angle));
+			cobj.lineTo(originx+radius1*Math.cos(angle),originy+radius1*Math.sin(angle));
+			cobj.stroke();
+          }   
+	   }
+	  
+	  function drawPointer(radius,angle,width,color)
+	  {
+		 cobj.lineWidth=width;
+		 cobj.StrokeStyle=color;
+		 cobj.beginPath();
+		 cobj.moveTo(originx,originy);
+		 cobj.lineTo(originx+radius*Math.cos(angle*Math.PI/180),originy+radius*Math.sin(angle*Math.PI/180));
+		 cobj.stroke();
+	  }
+	  
+	  
+	}
+ </script>
+</head>
+  
+<body>
+<canvas id="canvas" width=400 height=400></canvas>
+</body>
+</html>
