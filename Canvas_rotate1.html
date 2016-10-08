@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>canvas_rotate1</title>
+  <style type="text/css">
+  #canvas{
+	  background-color:#eee;
+	  }
+  
+  </style>
+
+<script type="text/javascript">
+     window.onload=function ()
+	 {
+	   var canvas=document.getElementById("canvas");
+	   var cobj=canvas.getContext("2d");
+	   
+	   cobj.save();
+	   
+	   cobj.scale(0.5,0.5);
+	   cobj.fillRect(50,50,100,100);
+	   
+	   cobj.restore(); 
+	   
+	   cobj.arc(200,200,100,0,2*Math.PI);
+	   cobj.fill();
+	   
+	   
+	   //clean canvas
+	   //translate the origin point move to 100,100
+	   cobj.translate(100,100);
+	   cobj.fillRect(0,0,100,100);
+	   cobj.clearRect(0,0,200,200);	
+	   
+	   //rotate
+	   cobj.translate(400,400);
+	   cobj.rotate(10*Math.PI/100);
+	   cobj.strokeRect(50,50,100,100);
+	   
+	   //cobj.transform();
+	      	 
+	 }
+
+</script>
+</head>
+
+<body>
+<canvas id="canvas" width=800 height=900></canvas>
+</body>
+</html>
