@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>kaleidoscope</title>
+<style type="text/css">
+  #canvas{
+	  background-color:#eee;
+	  }
+</style>
+  <script type="text/javascript">
+    window.onload=function()
+    {
+	  var canvas=document.getElementById('canvas');
+	  var cobj=canvas.getContext("2d");
+	  arr=[];
+	  
+	  var t=setInterval(function(){
+		  cobj.clearRect(0,0,600,600);
+		  for(var i=0; i<arr.length;i++)
+		  {
+			cobj.save();
+			cobj.translate(300,300);  
+			cobj.scale(arr[i].scales,arr[i].scales);
+			cobj.rotate(arr[i].angle*Math.PI/180);
+			cobj.fillStyle=arr[i].color;
+			cobj.fillRect(arr[i].num,arr[i].num,30,30);
+			cobj.restore(); 	  
+		  }
+		  },100);	
+		
+		setInterval(function(){
+			for(var i=0;i<arr.length;i++)
+			{
+				if(arr[i].num<=0)
+				{
+				  arr.splice(i,1);
+				  //delet items from array (index,howmany);
+				  continue;
+				}
+				 arr[i].angle+=2;
+				 arr[i].num-=0.2;
+				 arr[i].scales-=0.002;
+				 if(arr[i].scales<=0.2)
+				  {
+					arr[i].scales=0.2; 
+				  }
+				}
+			},60);
+			
+		 //JS json var json={json1,json2,json3}; arr.push(json) arr[i].json1  arr[i].json2 arr[i].json3
+		 
+		 setInterval(function(){
+			 var rect={angle:0,
+			           num:150,
+					   scales:1,
+					   color:"rgb("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+"," +parseInt(Math.random()*255)+")"
+					   }
+					 
+			    arr.push(rect); 
+			 },1000);	
+    }
+
+  </script>
+</head>
+
+<body>
+<canvas id="canvas" width=600 height=600></canvas>
+</body>
+</html>

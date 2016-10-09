@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Rotate2</title>
+<style type="text/css">
+  #canvas{
+	  background-color:#eee;
+	  }
+</style>
+<script type="text/javascript">
+    window.onload=function()
+    {
+	   var canvas=document.getElementById('canvas');
+	   var cobj=canvas.getContext('2d');
+	   cobj.rect(50,50,100,100);
+	   cobj.fillStyle="purple";
+	   //fillRect()=>rect() fill() beginPath();
+	   cobj.fill();	
+		
+	   var num=0;
+	   canvas.onclick=function(e)
+	   {
+		
+		 var oEvent=event||e;
+		 var mx=oEvent.layerX;
+		 //FF only
+		 var my=oEvent.layerY;
+		 
+		 if(cobj.isPointInPath(mx,my))
+		  {
+			setInterval(function (){
+				cobj.clearRect(0,0,500,500);
+				num++;
+				conj.save();
+				
+				cob.translate(100,100);
+				
+				cobj.scale(Math.sin(num*Math.PI/180),Math.sin(num*Math.PI/180));
+				cobj.rotate(num*Math.PI/180);
+				cobj.translate(-50,-50);
+				
+			   cobj.beginPath();
+			   cobj.rect(0,0,100,100);
+			   cobj.fill();
+			   cobj.restore();
+				
+				},100); 
+		  }else{
+			  console.log("error");
+			  }   
+	   }	
+		
+	}
+</script>
+</head>
+
+<body>
+<canvas id="canvas" width=500 height=500></canvas>
+</body>
+</html>
