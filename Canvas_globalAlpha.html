@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>globalAlpha</title>
+<style type="text/css">
+ #canvas{
+	  background-color:#eee;
+	 }
+</style>
+<script type="text/javascript">
+   window.onload=function ()
+   {
+	   var canvas=document.getElementById("canvas");
+	   var cobj=canvas.getContext("2d");
+       
+	   //partial transparent
+	   //r red g green b blue
+	   //cobj.fillStyle="rgba(255,0,00.5)";
+	   //cobj.fillRect(0,0,100,100);
+	   //cobj.fillStyle="regb(355,0,355,0.5)";
+	   //cobj.fillRect(100,100,100,100);
+	   //cobj.fillStyle="rgba(255,0,255,1)";
+	   //cobj.fillRect(200,200,100,100);
+	   
+	   //whole transparent
+	   //cobj.save();
+	   //cobj.globalAlpha=0.5;
+	   //cobj.fillRect(0,0,100,100);
+	   //cobj.fillRect(100,100,100,100);
+	   //cobj.restore();
+	   //cobj.fillRect(200,200,100,100);
+	   
+	   //overlap
+	   cobj.fillStyle="red";
+	   cobj.strokeStyle="blue";
+	   cobj.save();
+	   cobj.fillRect(0,0,100,100);
+	   cobj.globalCompositeOperation="destination-over";
+	   cobj.strokeRect(90,90,100,100);
+	   cobj.restore()
+	   
+	   cobj.fillRect(200,200,100,100);
+	   cobj.strokeRect(290,290,100,100);
+	   
+	 }
+
+</script>
+</head>
+
+<body>
+<canvas id="canvas" width=500 height=500></canvas>
+</body>
+</html>
