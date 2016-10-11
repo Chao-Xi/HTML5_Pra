@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>rbba_pixel</title>
+ <style type="text/css">
+  #canvas{
+	  background-color:#eee;
+	  }
+ </style>
+ <script type="text/javascript">
+     window.onload=function()
+     {
+		var canvas=document.getElementById("canvas");
+		var cobj=canvas.getContext("2d");
+		cobj.fillRect(0,0,100,100);
+		
+		var imgData=cobj.getImageData(0,0,100,100);
+		console.log('ImagData contains the data attributes and it is array:'+imgData.data.length);
+		//40000 rbga*10000=40000
+		
+		//change pixel value
+		for(var i=0;i<imgData.width*imgData.height;i++)
+		{
+		   imgData.data[i*4+0]=255;	 //r
+		    imgData.data[i*4+1]=0;	  //g
+			 imgData.data[i*4+2]=0;	  //b
+			 imgData.data[i*4+3]=255;	//a
+		}
+		cobj.putImageData(imgData,100,100); 
+	 }
+ </script>
+</head>
+
+<body>
+<canvas id="canvas" width=500 height=500></canvas>
+</body>
+</html>

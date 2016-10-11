@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>spectrum</title>
+<style type="text/css">
+  #canvas{
+	  background-color:#eee;
+	  }
+</style>
+<script type="text/javascript">
+      window.onload=function ()
+	  {
+		var canvas=document.getElementById("canvas");
+		var cobj=canvas.getContext("2d");
+		 
+		var imgData=cobj.createImageData(100,100);
+		cobj.putImageData(Gradient(imgData,[255,0,0,255],[0,255,255,0]),100,100);
+		
+		function Gradient(imgData,colorArr1,colorArr2)
+		{  
+		   for(var i=0; i<imgData.width*imgData.height;i++){
+		   imgData.data[i*4+0]=colorArr1[0]+(i/(imgData.width*imgData.height))*(colorArr2[0]-colorArr1[0]);	
+		   imgData.data[i*4+1]=colorArr1[1]+(i/(imgData.width*imgData.height))*(colorArr2[0]-colorArr1[0]);	
+		   imgData.data[i*4+2]=colorArr1[2]+(i/(imgData.width*imgData.height))*(colorArr2[0]-colorArr1[0]);	
+		   imgData.data[i*4+3]=colorArr1[3]+(i/(imgData.width*imgData.height))*(colorArr2[0]-colorArr1[0]);	
+		   }
+		   return imgData;
+		}  
+		   
+	 }
+
+</script>
+</head>
+   
+<body>
+<canvas id="canvas" width=500 height=500></canvas>
+</body>
+</html>
