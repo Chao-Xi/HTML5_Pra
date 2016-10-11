@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Photo Process</title>
+<style type="text/css">
+#canvas{
+	background-color:#eee;
+	}
+</style>
+       <script type="text/javascript">
+	   window.onload=function()
+	   {
+        var canvas=document.getElementById("canvas");
+		var cobj=canvas.getContext("2d");
+		var img=document.getElementById("img1");
+		cobj.drawImage(img,0,0,350,350);
+		
+		
+		var imgData=cobj.getImageData(0,0,350,350);
+		var newarr=rand(imgData.width*imgData.height,10); 
+	
+		for(var i=0;i<newarr.length;i++)
+		{
+		  imgData.data[newarr[i]*4+0]=(parseInt(255*Math.random())+imgData.data[4*newarr[i]+0])/2;
+		  imgData.data[newarr[i]*4+1]=(parseInt(255*Math.random())+imgData.data[4*newarr[i]+1])/2; 	
+		  imgData.data[newarr[i]*4+2]=(parseInt(255*Math.random())+imgData.data[4*newarr[i]+2])/2; 	
+		  imgData.data[newarr[i]*4+3]=255; 	 	
+			
+		}  
+		
+		cobj.putImageData(imgData,350,0); 
+		
+		var newimgData=cobj.createImageData(350,350); 
+		cobj.putImageData(inverted(imgData,newimgData,2),0,350);
+	  }
+	   
+	  
+	   function inverted(imgData,newimgData,num)
+	   {
+		 for(var i=0; i<imgData.height;i++)
+		 {
+			for(var j=0;j<imgData.width;j++) 
+			 {
+			     newimgData.data[i*(imgData.width*4)+j*4+0]=imgData.data[(imgData.height-i)*(imgData.width*4)+j*4+0];
+				 newimgData.data[i*(imgData.width*4)+j*4+1]=imgData.data[(imgData.height-i)*(imgData.width*4)+j*4+1];	
+				 newimgData.data[i*(imgData.width*4)+j*4+2]=imgData.data[(imgData.height-i)*(imgData.width*4)+j*4+2];	
+				 newimgData.data[i*(imgData.width*4)+j*4+3]=imgData.data[(imgData.height-i)*(imgData.width*4)+j*4+3]-i;		 
+             }
+		 }  
+		   return newimgData;   
+	    } 
+	   
+	   
+	   
+	   function rand(sum,num)
+	   {
+		var arr=[];
+		for(var i=0;i<sum;i++)
+		 {
+		    arr.push(i);	
+         }
+		 
+		 var newarr=[];
+		 for(var i=0;i<sum/num;i++)
+		 {
+			newarr.push(arr.splice([Math.floor(arr.length*Math.random())],1));
+		 }
+		 return newarr;	     
+	 }
+      </script>
+</head>
+
+<body>
+   <canvas id="canvas" width=700 height=700>
+<img src="dk.jpg" id="img1" hidden/>
+</canvas>
+</body>
+</html>
