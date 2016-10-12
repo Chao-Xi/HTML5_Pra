@@ -16,9 +16,9 @@
 		var img=document.getElementById("img1");
 		cobj.drawImage(img,0,0,500,500);
 		var imgData=cobj.getImageData(0,0,500,500);
-		//cobj.putImageData(reverseColor(imgData),500,500);
+		cobj.putImageData(reverseColor(imgData),0,500);
 		
-		//cobj.putImageData(curt(imgData,20),500,500);
+		cobj.putImageData(curt(imgData,20),500,0);
 		cobj.putImageData(blurphoto(imgData,20),500,500);
 	 }
 	 

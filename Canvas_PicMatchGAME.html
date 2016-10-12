@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>PictureMatch </title>
+<script src="event.js"></script>
+<style type="text/css">
+#canvas{
+	background-color:#eee;
+	}
+</style>
+<script type="text/javascript">
+   window.onload=function ()
+   {
+      var canvas=document.getElementById("canvas");
+	  var cobj=canvas.getContext("2d");
+	  
+	  var arr=[];
+	  for(var i=0;i<8;i++)
+	  {
+	     var rectObj={
+			 width:50,
+			 height:50,
+			 color:"rgba("+parseInt(255*Math.random())+","+parseInt(255*Math.random())+","+parseInt(255*Math.random())+",255)"
+			 } 
+		   arr.push(rectObj);	   
+	  }
+	  
+	  //all square 2*8=16
+	  var newarr=[];
+	  for(var i=0;i<2;i++)
+	  {
+		for(var j=0;j<arr.length;j++)
+		{
+		  newarr.push(arr[j]);	
+		}  
+      }
+	 //alert(newarr.length);
+	  
+	  //draw squares
+	  var rows=0;
+	  var cols=0;
+	  for(var i=0; i<newarr.length;i++)
+	  {
+		  if(i%4==0)
+		  {
+			rows++;
+			cols=0;  
+		  }
+		  cobj.beginPath();
+		  cobj.fillStyle=newarr[i].color;
+		  cobj.rect(cols*(newarr[i].width+5),rows*(newarr[i].height+5),newarr[i].width,newarr[i].height);
+		  cobj.fill();
+		  cobj.stroke();
+		  newarr[i].x=cols*(newarr[i].width+5);
+		  newarr[i].y=cols*(newarr[i].height+5);
+		  cols++;
+      }
+	   canvas.onclick=function(e)
+	  {
+		var mx=e.layerX;
+		var my=e.layerY;
+	    cobj.clearRect(0,0,500,500);	
+		for(var i=0;i<newarr.length;i++)
+		{ 
+		   cobj.fillStyle=newarr[i].color;
+		   var str=newarr[i].x+","+newarr[i].y+","+newarr[i].width+","+newarr[i].height;
+		   var event=new addEvent(cobj,"rect",str,function(){alert(1);});
+		   event.add(mx,my);	
+		}
+		
+	  }
+   }
+ </script>  
+</head>
+
+<body>
+<canvas id="canvas" width=500 height=500></canvas>
+</body>
+</html>

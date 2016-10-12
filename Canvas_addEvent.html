@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Drag_pull_pic</title>
+<style type="text/css">
+#canvas{
+	background-color:#eee;
+	}
+</style>
+<script type="text/javascript">
+   window.onload=function ()
+   {
+      var canvas=document.getElementById("canvas");
+	  var cobj=canvas.getContext("2d");
+	  
+	  cobj.beginPath();
+	  cobj.arc(100,100,50,0,2*Math.PI);
+	  cobj.fill();
+	  
+	  cobj.beginPath();
+	  cobj.arc(200,200,50,0,2*Math.PI);
+	  cobj.fill()
+	  
+	   cobj.beginPath();
+	  cobj.arc(300,300,50,0,2*Math.PI);
+	  cobj.fill()
+	  
+	  canvas.onclick=function(e)
+	  {
+		var mx=e.layerX;
+		var my=e.layerY;
+		var event1=new addEvent(cobj,"arc","100,100,50,0,"+2*Math.PI,function(){alert(1);});
+		event1.add(mx,my);
+		
+		var event2=new addEvent(cobj,"arc","200,200,50,0,"+2*Math.PI,function(){alert(2);});
+		event2.add(mx,my);
+		
+		var event3=new addEvent(cobj,"arc","300,300,50,0,"+2*Math.PI,function(){alert(3);});
+		event3.add(mx,my);
+      }
+   }
+   function addEvent(cobj,type,data,callback)
+   {
+	 this.cobj=cobj;
+	 this.type=type;
+	 this.data=data;
+	 this.callback=callback; 
+	 this.redraw(); 
+    }
+	
+	addEvent.prototype={
+		redraw:function()
+		{
+		   if(this.type=="arc")
+		   {
+			 this.cobj.beginPath();
+			 var arr=this.data.split(",");
+			 this.cobj.arc(arr[0],arr[1], arr[2], arr[3], arr[4]);
+			 this.cobj.fill();  
+			}	
+		},
+		
+		add:function(mx,my)
+		{
+		  if(this.cobj.isPointInPath(mx,my))
+		  {
+			this.callback();  
+		  }	
+		}
+	  }
+</script>
+</head>
+
+<body>
+<canvas id="canvas" width=500 height=500></canvas>
+</body>
+</html>
