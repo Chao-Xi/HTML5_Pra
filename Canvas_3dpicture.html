@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>3d_cube</title>
+<style type="text/css">
+   #canvas{
+	      background-color:#eee;
+	      }
+</style>
+<script type="text/javascript">
+     window.onload=function()
+	 {
+		var canvas=document.getElementById('canvas');
+		var cobj=canvas.getContext('2d');
+		var focusLen=300;
+		cobj.translate(250,250);
+		
+		var points=[
+		 {x_3d:-50,y_3d:-50,z_3d:-50},
+		 {x_3d:50,y_3d:-50,z_3d:-50},
+		 {x_3d:50,y_3d:50,z_3d:-50},
+		 {x_3d:-50,y_3d:50,z_3d:-50},
+		 
+		 {x_3d:-50,y_3d:-50,z_3d:50},
+		 {x_3d:50,y_3d:-50,z_3d:50},
+		 {x_3d:50,y_3d:50,z_3d:50},
+		 {x_3d:-50,y_3d:50,z_3d:50}
+		] 
+	   
+	    var points2d=[];
+	  	for(var i=0;i<points.length;i++)
+		{
+		   var obj=change2d(points[i].x_3d,points[i].y_3d,points[i].z_3d,focusLen);
+		   points2d.push(obj);	
+		} 
+		drawRect(cobj,points2d);
+	 } 
+	 
+	 function change2d(x_3d,y_3d,z_3d,focusLen)
+	 {
+	    var xy={};
+		//json
+		var scales=focusLen/(focusLen+z_3d);
+		//json xy.x<=     xy.y<=
+		xy.x=x_3d*scales;
+		xy.y=y_3d*scales;
+		return xy; 	 
+		 
+	 }
+	 
+	 function drawRect(cobj,points2d)
+	 {
+	    cobj.beginPath();
+		cobj.moveTo(points2d[0].x,points2d[0].y);
+		cobj.lineTo(points2d[1].x,points2d[1].y);
+		cobj.lineTo(points2d[2].x,points2d[2].y);
+		cobj.lineTo(points2d[3].x,points2d[3].y);
+		cobj.closePath();
+		cobj.stroke();
+	    
+		cobj.beginPath();
+		cobj.moveTo(points2d[4].x,points2d[4].y);
+		cobj.lineTo(points2d[5].x,points2d[5].y);
+		cobj.lineTo(points2d[6].x,points2d[6].y);
+		cobj.lineTo(points2d[7].x,points2d[7].y);
+		cobj.closePath();
+		cobj.stroke();
+	    
+		cobj.beginPath();
+		cobj.moveTo(points2d[0].x,points2d[0].y);
+		cobj.lineTo(points2d[4].x,points2d[4].y);
+		cobj.lineTo(points2d[7].x,points2d[7].y);
+		cobj.lineTo(points2d[3].x,points2d[3].y);
+		cobj.closePath();
+		cobj.stroke();
+		
+		
+		cobj.beginPath();
+		cobj.moveTo(points2d[1].x,points2d[1].y);
+		cobj.lineTo(points2d[5].x,points2d[5].y);
+		cobj.lineTo(points2d[6].x,points2d[6].y);
+		cobj.lineTo(points2d[2].x,points2d[2].y);
+		cobj.closePath();
+		cobj.stroke();
+	 }
+</script>
+</head>
+  
+<body>
+<canvas id="canvas" width=500 height=500></canvas>
+</body>
+</html>
