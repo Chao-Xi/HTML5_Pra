@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>3dball_jump</title>
+<style type="text/css">
+   #canvas{
+	      background-color:#eee;
+	      }
+</style>
+<script type="text/javascript">
+     window.onload=function()
+	 {
+		var canvas=document.getElementById('canvas');
+		var cobj=canvas.getContext('2d');
+		cobj.translate(250,250);
+		
+		var arr=[];
+		for(var i=0;i<12;i++)
+		{
+		  var arrObj={
+			  r:15+5*Math.random(),
+			  x_3d:-200+i*30,
+			  y_3d:-100+200*Math.random(),
+			  z_3d:10+10*Math.random(),
+			  z_speed:10+10*Math.random()
+			          }	
+		    arr.push(arrObj);			  
+        }
+		
+		var focusLen=300;
+		setInterval(function(){
+		  cobj.clearRect(-250,-250,canvas.width,canvas.height);
+		  var newarr=arr.sort(function (a,b)
+		  {
+			return a.z_3d<b.z_3d;  
+		  })
+		  
+		  for(var i=0;i<arr.length;i++)
+		  {
+			arr[i].z_3d+=arr[i].z_speed;  
+			if(arr[i].z_3d>600||arr[i].z_3d<=-50)
+			{
+			   arr[i].z_speed*=-1;	
+			} 
+			
+			var scales=focusLen/(focusLen+arr[i].z_3d);
+		   //json xy.x<=     xy.y<=
+		    var x=arr[i].x_3d*scales;
+		    var y=arr[i].y_3d*scales;
+			
+			cobj.save();
+			cobj.translate(x,y);
+			cobj.scale(scales,scales);
+			
+			cobj.beginPath();
+			var colorObj=cobj.createRadialGradient(3,3,0,0,0,15);
+			colorObj.addColorStop(0,"#cbc0f3");
+			colorObj.addColorStop(1,"#06198b");
+			cobj.fillStyle=colorObj;
+			cobj.arc(0,0,arr[i].r,0*Math.PI,2*Math.PI);
+			cobj.fill();
+			cobj.restore();	
+			 
+		  }
+	      },50);
+	 }
+</script>	 
+	 
+</head>
+
+<body>
+<canvas id="canvas" width=500 height=500></canvas>
+</body>
+</html>
